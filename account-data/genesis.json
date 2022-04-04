@@ -1,0 +1,51 @@
+{
+  "hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "genesis": {
+    "config": {
+      "chainId": null,
+      "homesteadBlock": 0,
+      "eip150Block": 0,
+      "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "eip155Block": 0,
+      "eip158Block": 0,
+      "byzantiumBlock": 0,
+      "constantinopleBlock": 0,
+      "petersburgBlock": 0,
+      "istanbulBlock": 0,
+      "berlinBlock": 0,
+      "polybft": {
+        "Validators": [
+          "0xd7379210fa20cdf863675e7421cce4c84f453129",
+          "0x05206085c1a0795580ec017e8da873c7843a73b9",
+          "0x666646c70891d4de899148419fe951bdde72fda8",
+          "0x7db97210fabdddacd45fe3bc2ead2339fef0e0fa",
+          "0x35df6ae8e8eba15b17d2e1c339ce6bb08b6a55ed"
+        ],
+        "Bridge": null,
+        "ValidatorSetAddr": "0xbd770416a3345f91e4b34576cb804a576fa48eb1",
+        "SidechainBridgeAddr": "0x5a443704dd4b594b382c22a083e2bd3090a6fef3"
+      }
+    },
+    "nonce": "0x0",
+    "timestamp": "0x0",
+    "extraData": "0x",
+    "gasLimit": "0x0",
+    "difficulty": "0x0",
+    "mixHash": "0xadce6e5230abe012342a44e4e9b6d05997d6f015387ae0e59be924afc7ec70c1",
+    "coinbase": "0x0000000000000000000000000000000000000000",
+    "alloc": {},
+    "number": "0x0",
+    "gasUsed": "0x0",
+    "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "baseFeePerGas": null
+  },
+  "bootnodes": [
+    "enode://19958ba8824ae47c533a4c213967aa884c302e1cc3777067ddb987c904d8ba210afaa454696b36fac448b76da0274b79f1db17f4b0bb025d538c3a45bd108889@127.0.0.1:30301",
+    "enode://6131e4e4e082872cf0137962a74be8466bb4ec9d40994d258ffdb88eacf77368b54e764b2d26f2dcb406a8831131250e57ef172233c51b9f0eed914afa42e905@127.0.0.1:30302",
+    "enode://a3515db1a378e579f590facfabb11a7a3512c59118d93dce6847a2d98de491195eac9615e2200eec774cb1116a8539c2535ed6ab8c3f9339e4e8356578f52aec@127.0.0.1:30303",
+    "enode://9adbbe6cc430946a84bb8c3f490e9818c70583f0247cb75f10d5930d314d807df86c1ecbc119655d5aa751f7a7824d202e46aa2160effa06a61163b0f519fbd2@127.0.0.1:30304",
+    "enode://92cbd213d45ce24ea48b58e836becaaa3d348a13eb7985398a3bf8b9fcbcdd2452b8109ddb7dc158697555b9a79732c11e1be22beadb368f269ae86b29d9c7c7@127.0.0.1:30305"
+  ],
+  "networkid": 0,
+  "dns": null
+}
