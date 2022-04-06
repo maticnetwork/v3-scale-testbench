@@ -1,28 +1,3 @@
-
-variable "name" {
-    type = string
-}
-
-variable "num" {
-    type = number
-}
-
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.27"
-    }
-  }
-
-  required_version = ">= 0.14.9"
-}
-
-provider "aws" {
-  profile = "default"
-  region  = "us-east-1"
-}
-
 /*
 # Upload account data to s3
 resource "aws_s3_bucket" "state_bucket" {
@@ -74,6 +49,10 @@ resource "aws_security_group" "web-sg" {
   }
 }
 
+resource "aws_key_pair" "admin" {
+  key_name   = "admin"
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOdATyDZN1ZvHGoIZCjO4IOc8O+IkTvD/vAtG92MZ93y admin-v3-dev"
+}
 
 resource "aws_instance" "web" {
   ami                    = "ami-0c02fb55956c7d316"
@@ -81,8 +60,10 @@ resource "aws_instance" "web" {
 
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
+  key_name   = "admin"
+
   tags = {
-    Name = "xxs"
+    Name = "bootnode1"
   }
 }
 
