@@ -12,5 +12,6 @@ docker info
 yum install -y tmux awscli 
 
 # Download account data from S3
+mkdir /data
 
 # Run docker containers

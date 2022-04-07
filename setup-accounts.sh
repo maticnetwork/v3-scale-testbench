@@ -5,6 +5,10 @@ N=$1
 # build accounts
 docker run -v $PWD/account-data:/data example init-account --datadir /data/test-dir- --num $N
 
+# Remove some extra data generated
+find ./account-data -name 'LOCK' -delete
+find ./account-data -name 'nodekey' -delete
+
 # build genesis file
 docker run -v $PWD/account-data:/data example init-genesis --output /data
 
