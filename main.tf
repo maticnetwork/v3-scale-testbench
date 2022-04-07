@@ -89,7 +89,8 @@ resource "aws_instance" "app_server" {
   associate_public_ip_address = true
 
   user_data = "${templatefile("${path.module}/userdata/node.tpl", {
-    name = "name-${count.index}"
+    name = "name-${count.index}",
+    bootnode = "enode://${file("${path.module}/bootnode/pub.key")}${aws_instance.bootnode.public_ip}:30303"
   })}"
 
   tags = {
