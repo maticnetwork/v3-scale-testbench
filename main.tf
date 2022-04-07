@@ -1,21 +1,23 @@
-/*
+locals {
+  name = "test"
+}
+
 # Upload account data to s3
 resource "aws_s3_bucket" "state_bucket" {
-  bucket = "polygontech-cloud-framework-${var.name}"
+  bucket = "polygontech-v3-cloud-framework-${local.name}"
 
   tags = {
-    Deployment = "${var.name}"
+    Deployment = local.name
   }
 }
 
-resource "aws_s3_bucket_object" "account_data" {
+resource "aws_s3_object" "account_data" {
   for_each = fileset("./account-data", "**")
 
   bucket = "${aws_s3_bucket.state_bucket.bucket}"
   key    = each.value
   source = "./account-data/${each.value}"
 }
-*/
 
 resource "aws_security_group" "web-sg" {
   name = "ethnode-sg-1"
@@ -87,10 +89,13 @@ resource "aws_instance" "app_server" {
   key_name   = "admin"
 
   associate_public_ip_address = true
+  iam_instance_profile = "v3-node-role"
 
   user_data = "${templatefile("${path.module}/userdata/node.tpl", {
-    name = "name-${count.index}",
-    bootnode = "enode://${file("${path.module}/bootnode/pub.key")}${aws_instance.bootnode.public_ip}:30303"
+    index = count.index
+    docker = "ferranbt/example:latest",
+    bootnode = "enode://${file("${path.module}/bootnode/pub.key")}@${aws_instance.bootnode.public_ip}:30303"
+    bucket = aws_s3_bucket.state_bucket.bucket
   })}"
 
   tags = {
