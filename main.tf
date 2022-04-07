@@ -54,13 +54,20 @@ resource "aws_key_pair" "admin" {
   public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOdATyDZN1ZvHGoIZCjO4IOc8O+IkTvD/vAtG92MZ93y admin-v3-dev"
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "bootnode" {
   ami                    = "ami-0c02fb55956c7d316"
   instance_type          = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
   key_name   = "admin"
+
+  associate_public_ip_address = true
+
+  user_data = "${templatefile("${path.module}/userdata/bootnode.tpl", {
+    docker = "ferranbt/example:latest",
+    priv = file("${path.module}/bootnode/priv.key")
+  })}"
 
   tags = {
     Name = "bootnode1"
@@ -109,8 +116,6 @@ resource "aws_instance" "app_server" {
 }
 */
 
-/*
 output "bootnode" {
   value = "${aws_instance.bootnode.public_ip}"
 }
-*/
