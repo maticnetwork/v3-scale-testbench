@@ -68,7 +68,7 @@ resource "aws_instance" "bootnode" {
   associate_public_ip_address = true
 
   user_data = "${templatefile("${path.module}/userdata/bootnode.tpl", {
-    docker = "ferranbt/example:latest",
+    docker = "ferranbt/example-v3:latest",
     priv = file("${path.module}/bootnode/priv.key")
     dd_api_key = data.aws_ssm_parameter.dd_api_key.value
   })}"
@@ -94,7 +94,7 @@ resource "aws_instance" "app_server" {
 
   user_data = "${templatefile("${path.module}/userdata/node.tpl", {
     index = count.index
-    docker = "ferranbt/example:latest",
+    docker = "ferranbt/example-v3:latest",
     bootnode = "enode://${file("${path.module}/bootnode/pub.key")}@${aws_instance.bootnode.public_ip}:30303"
     bucket = aws_s3_bucket.state_bucket.bucket
     dd_api_key = data.aws_ssm_parameter.dd_api_key.value

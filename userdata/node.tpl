@@ -32,9 +32,10 @@ docker run -d --name dd-agent \
 -v /var/run/docker.sock:/var/run/docker.sock:ro \
 -v /proc/:/host/proc/:ro \
 -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro \
+--add-host host.docker.internal:host-gateway \
 -l com.datadoghq.ad.check_names='["openmetrics"]' \
 -l com.datadoghq.ad.init_configs='[{}]' \
--l com.datadoghq.ad.instances='[[{"openmetrics_endpoint":"http://localhost:7071/debug/metrics/prometheus", "namespace": "bor"}]]' \
+-l com.datadoghq.ad.instances='[[{"openmetrics_endpoint":"http://host.docker.internal:7071/metrics", "namespace": "v3", "metrics": ["geth*","txpool*","trie*","system*","state*","rpc*","p2p*","les*","eth*","chain*"]}]]' \
 -e DD_TAGS=v3 \
 -e DD_API_KEY=${dd_api_key} \
 -e DD_SITE="datadoghq.com" \
