@@ -15,7 +15,27 @@ yum install -y tmux awscli
 mkdir /data
 chown ec2-user:ec2-user /data
 aws s3 sync s3://${bucket}/test-dir-${index} /data/
-aws s3 sync s3://${bucket}/genesis.json /data/genesis.json
+aws s3 cp s3://${bucket}/genesis.json /data/genesis.json
 
 # Run docker container
-docker run -v /data:/data ${docker} -datadir /data -chain /data/genesis.json -mine -bootnode ${bootnode}
+docker run -d \
+--net=host \
+-v /data:/data ${docker} \
+server -datadir /data \
+-chain /data/genesis.json \
+-mine \
+-bind 0.0.0.0 \
+-metrics -metrics.expensive -metrics.prometheus-addr=0.0.0.0:7071 \
+-bootnodes ${bootnode}
+
+docker run -d --name dd-agent \
+-v /var/run/docker.sock:/var/run/docker.sock:ro \
+-v /proc/:/host/proc/:ro \
+-v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro \
+-l com.datadoghq.ad.check_names='["openmetrics"]' \
+-l com.datadoghq.ad.init_configs='[{}]' \
+-l com.datadoghq.ad.instances='[[{"openmetrics_endpoint":"http://localhost:7071/debug/metrics/prometheus", "namespace": "bor"}]]' \
+-e DD_TAGS=v3 \
+-e DD_API_KEY=${dd_api_key} \
+-e DD_SITE="datadoghq.com" \
+gcr.io/datadoghq/agent:7

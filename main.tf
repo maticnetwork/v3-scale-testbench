@@ -70,6 +70,7 @@ resource "aws_instance" "bootnode" {
   user_data = "${templatefile("${path.module}/userdata/bootnode.tpl", {
     docker = "ferranbt/example:latest",
     priv = file("${path.module}/bootnode/priv.key")
+    dd_api_key = data.aws_ssm_parameter.dd_api_key.value
   })}"
 
   tags = {
@@ -96,6 +97,7 @@ resource "aws_instance" "app_server" {
     docker = "ferranbt/example:latest",
     bootnode = "enode://${file("${path.module}/bootnode/pub.key")}@${aws_instance.bootnode.public_ip}:30303"
     bucket = aws_s3_bucket.state_bucket.bucket
+    dd_api_key = data.aws_ssm_parameter.dd_api_key.value
   })}"
 
   tags = {
