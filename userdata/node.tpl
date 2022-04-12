@@ -36,7 +36,7 @@ docker run -d --name dd-agent \
 -l com.datadoghq.ad.check_names='["openmetrics"]' \
 -l com.datadoghq.ad.init_configs='[{}]' \
 -l com.datadoghq.ad.instances='[[{"openmetrics_endpoint":"http://host.docker.internal:7071/metrics", "namespace": "v3", "metrics": ["geth*","txpool*","trie*","system*","state*","rpc*","p2p*","les*","eth*","chain*"]}]]' \
--e DD_TAGS=v3 \
+-e DD_TAGS="network:v3-dev deployment:test1" \
 -e DD_API_KEY=${dd_api_key} \
 -e DD_SITE="datadoghq.com" \
 gcr.io/datadoghq/agent:7

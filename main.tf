@@ -70,7 +70,6 @@ resource "aws_instance" "bootnode" {
   user_data = "${templatefile("${path.module}/userdata/bootnode.tpl", {
     docker = "ferranbt/example-v3:latest",
     priv = file("${path.module}/bootnode/priv.key")
-    dd_api_key = data.aws_ssm_parameter.dd_api_key.value
   })}"
 
   tags = {
