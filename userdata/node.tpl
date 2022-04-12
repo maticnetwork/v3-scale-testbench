@@ -39,4 +39,7 @@ docker run -d --name dd-agent \
 -e DD_TAGS="network:v3-dev deployment:test1" \
 -e DD_API_KEY=${dd_api_key} \
 -e DD_SITE="datadoghq.com" \
+-e DD_LOGS_ENABLED=true \
+-e DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true \
+-e DD_CONTAINER_EXCLUDE="image:gcr.io/datadoghq/agent" \
 gcr.io/datadoghq/agent:7
