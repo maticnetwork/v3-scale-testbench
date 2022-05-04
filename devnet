@@ -1,0 +1,5 @@
+#!/bin/bash
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+terraform init -backend-config="key=${branch}/terraform.tfstate" -migrate-state
+terraform $1 -var "branch=${branch}"

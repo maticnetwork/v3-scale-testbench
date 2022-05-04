@@ -1,5 +1,5 @@
 locals {
-  name = "test"
+  name = var.branch
 }
 
 # Upload account data to s3

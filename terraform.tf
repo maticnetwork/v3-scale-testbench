@@ -7,6 +7,11 @@ terraform {
   }
 
   required_version = ">= 0.14.9"
+
+  backend "s3" {
+    bucket = "polygon-v3-dev-terraform"
+    region = "us-east-1"
+  }
 }
 
 provider "aws" {
