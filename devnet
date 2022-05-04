@@ -1,5 +1,27 @@
 #!/bin/bash
 
 branch=$(git rev-parse --abbrev-ref HEAD)
-terraform init -backend-config="key=${branch}/terraform.tfstate" -migrate-state
-terraform $1 -var "branch=${branch}"
+command=$1
+
+# Check if terraform vars file exists
+terraform_init () {
+    if [ -f "./terraform.tfvars" ]; then
+        # Set plan if there's no first argument
+        if [ -z "$command" ]; then
+            command="plan"
+        fi
+        echo "Terraform vars file already exists, running ${command} command"
+    else
+        # User input nodes variable
+        echo "Enter number of nodes: "
+        read nodes
+
+        # Save nodes variable to .devnet file
+        echo "nodes = $nodes" >> terraform.tfvars
+
+        terraform init -backend-config="key=${branch}/terraform.tfstate" -migrate-state
+    fi
+}
+
+terraform_init
+terraform $command -var "branch=${branch}"

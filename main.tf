@@ -1,7 +1,3 @@
-locals {
-  name = var.branch
-}
-
 # Upload account data to s3
 resource "aws_s3_bucket" "state_bucket" {
   bucket = "polygontech-v3-cloud-framework-${local.name}"
@@ -74,12 +70,13 @@ resource "aws_instance" "bootnode" {
 
   tags = {
     Name = "bootnode1"
+    Branch = var.branch
   }
 }
 
 # Create the virtual machines
 resource "aws_instance" "app_server" {
-  count = "5"
+  count = var.nodes
 
   ami           = "ami-0c02fb55956c7d316"
   instance_type = "t2.micro"
@@ -101,6 +98,8 @@ resource "aws_instance" "app_server" {
 
   tags = {
     Name = "machine-${count.index}"
+    Branch = var.branch
+    NodeType = "node"
   }
 }
 
