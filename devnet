@@ -1,7 +1,20 @@
 #!/bin/bash
 
+set -e
+
 branch=$(git rev-parse --abbrev-ref HEAD)
 command=$1
+
+set_aws_env() {
+    # Check if yawsso is installed
+    if ! command -v yawsso >/dev/null 2>&1; then
+        echo "yawsso is not installed. Please install it first. pip3 install yawsso"
+        exit 1
+    fi
+    
+    echo "Logging into AWS"
+    eval $(yawsso -p v3-dev -e)
+}
 
 # Check if terraform vars file exists
 terraform_init () {
@@ -23,5 +36,12 @@ terraform_init () {
     fi
 }
 
+# If login command is passed, login to AWS SSO and export variables
+if [ "$command" = "login" ]; then
+    aws sso login --profile v3-dev
+    exit 0
+fi
+
+set_aws_env
 terraform_init
 terraform $command -var "branch=${branch}"
